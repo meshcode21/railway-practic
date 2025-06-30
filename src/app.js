@@ -30,4 +30,15 @@ app.get('/users', (req, res) => {
     });
 });
 
+app.post('/users', express.json(), (req, res) => {
+    connection.query('insert into users (name, email,password) values (?,?,?)', [req.body.name, req.body.email, req.body.password], (error, results) => {
+        if (error) {
+            console.error('Error inserting user:', error);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        res.status(201).json({ id: results.insertId, ...req.body });
+    });
+});
+
 export default app;
