@@ -19,4 +19,15 @@ connection.connect((err) => {
     console.log('Connected to the database');
 });
 
+app.get('/users', (req, res) => {
+    connection.query('SELECT * FROM users', (error, results) => {
+        if (error) {
+            console.error('Error fetching users:', error);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        res.json(results);
+    });
+});
+
 export default app;
